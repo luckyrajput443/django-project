@@ -1,0 +1,24 @@
+<!-- list_entries.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List Entries Page</title>
+    <!-- Add any additional styling if needed -->
+</head>
+<body>
+    <!-- Display Total Entries in the Top Right Corner -->
+    <div style="position: absolute; top: 0; right: 0;">
+        <p>Total Entries: {{ total_entries }}</p>
+    </div>
+
+    <h2>List Entries Page</h2>
+
+    <!-- Display the Result of Listing Entries -->
+    {% if list_entries is not None %}
+        <p>List of Entries: {{ list_entries|join(', ') }}</p>
+    {% endif %}
+</body>
+</html>

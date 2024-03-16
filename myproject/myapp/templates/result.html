@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Result Page</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f8ff; /* Light Blue */
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh; /* It Makes sure that the body takes the full height of the viewport */
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 20px;
+            width: 300px; /* Adjusted form width */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        input[type="submit"] {
+            background-color: #4caf50;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <!-- Display Total Entries in the Top Right Corner -->
+    <div style="position: absolute; top: 0; right: 0;">
+        <p>Total Entries: {{ total_entries }}</p>
+    </div>
+
+    <!-- Display "Data Mining" in the Top Left Corner -->
+    <div style="position: absolute; top: 0; left: 0;">
+        <p>Data Mining</p>
+    </div>
+
+    <h2>Result Page</h2>
+
+    <!-- Form for Fetching a Single Entry -->
+    <form action="{% url 'result' %}" method="post">
+        {% csrf_token %}
+        <label for="index">Enter ID:</label>
+        <input type="number" name="index" required>
+        <button type="submit">Fetch Entry</button>
+    </form>
+
+    <!-- Form for Listing Entries within a Range -->
+    <form action="{% url 'list_entries' %}" method="post">
+        {% csrf_token %}
+        <label for="start_range">Start ID:</label>
+        <input type="number" name="start_range" required>
+        <label for="end_range">End ID:</label>
+        <input type="number" name="end_range" required>
+        <button type="submit">List Entries</button>
+    </form>
+
+    <!-- Display the Result of Listing Entries -->
+    {% if entries_in_range %}
+        <p>List of Entries:</p>
+        <ul>
+            {% for entry in entries_in_range %}
+                <li>{{ entry.id }}: {{ entry.first_name }} {{ entry.last_name }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+
+    <!-- Display the Result of Fetching a Single Entry -->
+    {% if entry %}
+        <p>Entry with ID {{ entry.id }}: {{ entry.first_name }} {{ entry.last_name }}</p>
+    {% endif %}
+
+</body>
+</html>
